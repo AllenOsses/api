@@ -6,17 +6,25 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+
 class PostControllerTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      *
      * @return void
      */
-    public function testExample()
+    public function test_store()
     {
-        $response = $this->get('/');
+        $this->withoutExceptionHandling();
+        $response = $this->json('POST', '/api/post', [
+            'title' => 'El post de prueba'
+        ]);
 
-        $response->assertStatus(200);
+        $response->assertJsonStructure(['id', 'title', 'created_at', 'updated_at'])
+        ->assertJson(['title' => 'El post de prueba'])
+        -assertStatus(201);
+        $this->assertDatabaseHas('posts', ['title' => 'El post de prueba']);
     }
 }
