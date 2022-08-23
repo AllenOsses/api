@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Post;
-use Illuminate\Http\Request;
+use App\Http\Requests\Post as PostRequests;
 
 class PostController extends Controller
 {
@@ -13,6 +13,11 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $post;
+public function __construct(Post $post){
+   $this->post = $post;
+}
+
     public function index()
     {
         //
@@ -24,9 +29,9 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequests $request)
     {
-        $post = Post::create($request->all());
+        $post = $this->post->create($request->all());
 
         return response()->json($post, 201);
     }
@@ -40,7 +45,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return response()->json($post);
     }
 
     /**
