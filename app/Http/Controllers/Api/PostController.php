@@ -69,6 +69,7 @@ public function __construct(Post $post){
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return response()->json(null, 204);
     }
 }
