@@ -20,7 +20,7 @@ public function __construct(Post $post){
 
     public function index()
     {
-        //
+        return response()->json($this->post->paginate());
     }
 
     /**
